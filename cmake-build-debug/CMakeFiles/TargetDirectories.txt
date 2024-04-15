@@ -1,0 +1,3 @@
+D:/GITHUB/Strategy_Game_in_Ascii/cmake-build-debug/CMakeFiles/Strategy_Game_in_Ascii.dir
+D:/GITHUB/Strategy_Game_in_Ascii/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/GITHUB/Strategy_Game_in_Ascii/cmake-build-debug/CMakeFiles/rebuild_cache.dir
