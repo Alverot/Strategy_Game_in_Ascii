@@ -1,0 +1,12 @@
+//
+// Created by Alex on 15/04/2024.
+//
+
+#ifndef STRATEGY_GAME_IN_ASCII_GAMEMANAGINGFUNCTION_H
+#define STRATEGY_GAME_IN_ASCII_GAMEMANAGINGFUNCTION_H
+
+
+void testtt();
+void Menu();//Menu implementation
+
+#endif //STRATEGY_GAME_IN_ASCII_GAMEMANAGINGFUNCTION_H
