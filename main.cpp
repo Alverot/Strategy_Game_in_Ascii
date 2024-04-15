@@ -1,19 +1,17 @@
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
+#include <conio.h>
+
+#include "Headers/GameManagingFunction.h"
 
 
 using namespace std;
 
 int main() {
-    cout << "Hello, World!" << endl;
-    int da;
-    cout<<"Introduceti numarul :";
-    cin >> da;
-    printf("Numarul este %d",da);
-
-
-
-
-
+    //START
+    Menu();
+    cout<<"\nEND";
+    getchar();
     return 0;
 }
