@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <stdlib.h>
 #include <windows.h>
 #include <conio.h>
@@ -106,7 +107,8 @@ void Menu(){
                         break;
                     }
                     case 3: {
-                        cout << "\ninfooooooooo";
+
+                        cout<<info();
                         getchar();
                         break;
                     }
@@ -126,4 +128,25 @@ void Menu(){
 
 
     } while (ok != 0);
+}
+
+//info function
+//displays the rules, commands and more on how to play the game
+string info(){
+    system("cls");
+    string mesInfo = "Program realizat de Melinte Alexandru \n"
+                     "//aici o sa vina instructiunile despre cum se joaca jocul\n"
+                     "//+reguli si comenzi";
+    return mesInfo;
+}
+
+
+//new game function
+//starts the sequence fo creating a new game moving the player throw that process
+//and letting him chose the settings of that game.
+//Steps on the way :
+//1. chose one of the save slots (1,2,3) and warn him if the save slot already has a game saved
+//
+void NewGame(){
+
 }
