@@ -8,6 +8,7 @@
 #include "HeadersForClasses/Tile.h"
 #include "HeadersForClasses/Exceptions.h"
 #include "HeadersForClasses/Map.h"
+#include "HeadersForClasses/Player.h"
 
 using namespace std;
 
@@ -19,13 +20,7 @@ int main() {
 
         Menu();
         cout << "\nEND\n";
-        Tile patrat(3, 2, 3, 1, 3);
-        patrat.afisTMP();
-        Map map;
-        //map.PrintMap();
-        cout<<map.ConvertForSave();
-
-        cout<<"Gata?";
+        SaveGame();
         getchar();getchar();
         filesystem::path currentPath = filesystem::current_path();
         cout << "Current Working Directory: " << currentPath << endl;

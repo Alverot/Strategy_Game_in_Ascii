@@ -18,7 +18,7 @@ class Map: public Tile
 
             Map();//note to me make another Map constructor that takes in the map number of players and position them
             void PrintMap();
-            string ConvertForSave();
+            string ConvertMapForSave();
 
 
 };

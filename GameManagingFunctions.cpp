@@ -4,21 +4,55 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <conio.h>
+#include <fstream>
 #include "Headers/GameManagingFunction.h"
+#include "HeadersForClasses/Player.h"
+#include "HeadersForClasses/Map.h"
 
 using namespace std;
 
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);//for changing colors
 
+//CONSTANTS
+
+const string SaveFile1 = "../SaveFiles/Save1.txt";
+const string SaveFile2 = "../SaveFiles/Save2.txt";
+const string SaveFile3 = "../SaveFiles/Save3.txt";
+const string FileForInterface = "../SaveFiles/Interface.txt";
+
+
+fstream file;
+
+//VARIABLES
+
+string SelectedSaveFile = SaveFile2;
+int NumberOfPlayers = 2;
+int Turn = 1;
+
+Player *player[8];
+Map map;
+
+
+
 //COLORS
 
 const int CyanForConsoleBackground = BACKGROUND_BLUE | BACKGROUND_GREEN;
 
+
+//FUNCTIONS
 void testtt(){
     printf("Merge bine ............cered");
 }
 
 void Menu(){
+
+    //TEMP
+    for(int i =0 ; i<8; i++)
+        player[i] = new Player();
+
+
+    //TEMP
+
     int ok =1;
     int optcurenta = 1;
 
@@ -149,5 +183,21 @@ string info(){
 //
 void NewGame(){
 
+}
+
+void SaveGame(){
+
+    file.open(SelectedSaveFile,ios::out | ios::trunc);
+
+    if (file.is_open()) {
+        file<<Turn<<endl;
+        for(int i = 0; i<NumberOfPlayers;i++)
+            file << player[i]->ConvertPlayerForSave()<<endl;
+        file << map.ConvertMapForSave();
+    } else {
+        cerr << "Error: Could not create or open file for writing." << endl;
+    }
+
+    file.close();
 
 }

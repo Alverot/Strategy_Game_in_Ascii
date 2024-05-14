@@ -34,7 +34,7 @@ void Map::PrintMap()
     }
 }
 
-string Map::ConvertForSave(){
+string Map::ConvertMapForSave(){
     string s;
     char* tmp = new char [100];
     for(int i = 0; i <=9 ; i++)
