@@ -5,4 +5,12 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Strategy_Game_in_Ascii main.cpp
         GameManagingFunctions.cpp
-        Headers/GameManagingFunction.h)
+        Headers/GameManagingFunction.h
+        Classes/Tile.cpp
+        HeadersForClasses/Tile.h
+        Classes/Map.cpp
+        HeadersForClasses/Map.h
+        Classes/Exceptions.cpp
+        HeadersForClasses/Exceptions.h
+        Classes/Player.cpp
+        HeadersForClasses/Player.h)

@@ -61,6 +61,30 @@ build CMakeFiles/Strategy_Game_in_Ascii.dir/GameManagingFunctions.cpp.obj: CXX_C
   OBJECT_DIR = CMakeFiles\Strategy_Game_in_Ascii.dir
   OBJECT_FILE_DIR = CMakeFiles\Strategy_Game_in_Ascii.dir
 
+build CMakeFiles/Strategy_Game_in_Ascii.dir/Classes/Tile.cpp.obj: CXX_COMPILER__Strategy_Game_in_Ascii_unscanned_Debug D$:/GITHUB/Strategy_Game_in_Ascii/Classes/Tile.cpp || cmake_object_order_depends_target_Strategy_Game_in_Ascii
+  DEP_FILE = CMakeFiles\Strategy_Game_in_Ascii.dir\Classes\Tile.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Strategy_Game_in_Ascii.dir
+  OBJECT_FILE_DIR = CMakeFiles\Strategy_Game_in_Ascii.dir\Classes
+
+build CMakeFiles/Strategy_Game_in_Ascii.dir/Classes/Map.cpp.obj: CXX_COMPILER__Strategy_Game_in_Ascii_unscanned_Debug D$:/GITHUB/Strategy_Game_in_Ascii/Classes/Map.cpp || cmake_object_order_depends_target_Strategy_Game_in_Ascii
+  DEP_FILE = CMakeFiles\Strategy_Game_in_Ascii.dir\Classes\Map.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Strategy_Game_in_Ascii.dir
+  OBJECT_FILE_DIR = CMakeFiles\Strategy_Game_in_Ascii.dir\Classes
+
+build CMakeFiles/Strategy_Game_in_Ascii.dir/Classes/Exceptions.cpp.obj: CXX_COMPILER__Strategy_Game_in_Ascii_unscanned_Debug D$:/GITHUB/Strategy_Game_in_Ascii/Classes/Exceptions.cpp || cmake_object_order_depends_target_Strategy_Game_in_Ascii
+  DEP_FILE = CMakeFiles\Strategy_Game_in_Ascii.dir\Classes\Exceptions.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Strategy_Game_in_Ascii.dir
+  OBJECT_FILE_DIR = CMakeFiles\Strategy_Game_in_Ascii.dir\Classes
+
+build CMakeFiles/Strategy_Game_in_Ascii.dir/Classes/Player.cpp.obj: CXX_COMPILER__Strategy_Game_in_Ascii_unscanned_Debug D$:/GITHUB/Strategy_Game_in_Ascii/Classes/Player.cpp || cmake_object_order_depends_target_Strategy_Game_in_Ascii
+  DEP_FILE = CMakeFiles\Strategy_Game_in_Ascii.dir\Classes\Player.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Strategy_Game_in_Ascii.dir
+  OBJECT_FILE_DIR = CMakeFiles\Strategy_Game_in_Ascii.dir\Classes
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Strategy_Game_in_Ascii
@@ -69,7 +93,7 @@ build CMakeFiles/Strategy_Game_in_Ascii.dir/GameManagingFunctions.cpp.obj: CXX_C
 #############################################
 # Link the executable Strategy_Game_in_Ascii.exe
 
-build Strategy_Game_in_Ascii.exe: CXX_EXECUTABLE_LINKER__Strategy_Game_in_Ascii_Debug CMakeFiles/Strategy_Game_in_Ascii.dir/main.cpp.obj CMakeFiles/Strategy_Game_in_Ascii.dir/GameManagingFunctions.cpp.obj
+build Strategy_Game_in_Ascii.exe: CXX_EXECUTABLE_LINKER__Strategy_Game_in_Ascii_Debug CMakeFiles/Strategy_Game_in_Ascii.dir/main.cpp.obj CMakeFiles/Strategy_Game_in_Ascii.dir/GameManagingFunctions.cpp.obj CMakeFiles/Strategy_Game_in_Ascii.dir/Classes/Tile.cpp.obj CMakeFiles/Strategy_Game_in_Ascii.dir/Classes/Map.cpp.obj CMakeFiles/Strategy_Game_in_Ascii.dir/Classes/Exceptions.cpp.obj CMakeFiles/Strategy_Game_in_Ascii.dir/Classes/Player.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Strategy_Game_in_Ascii.dir

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <stdlib.h>
 #include <windows.h>
 #include <conio.h>
@@ -11,7 +12,7 @@ HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);//for changing colors
 
 //COLORS
 
-int Cyan = BACKGROUND_BLUE | BACKGROUND_GREEN;
+const int CyanForConsoleBackground = BACKGROUND_BLUE | BACKGROUND_GREEN;
 
 void testtt(){
     printf("Merge bine ............cered");
@@ -29,7 +30,7 @@ void Menu(){
         {
             case 1:
             {
-                SetConsoleTextAttribute(console, Cyan);
+                SetConsoleTextAttribute(console, CyanForConsoleBackground);
                 printf("\t\tNEW GAME\n");
                 SetConsoleTextAttribute(console, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
                 printf("\t\tLOAD GAME\n");
@@ -40,7 +41,7 @@ void Menu(){
             case 2:
             {
                 printf("\t\tNEW GAME\n");
-                SetConsoleTextAttribute(console, Cyan);
+                SetConsoleTextAttribute(console, CyanForConsoleBackground);
                 printf("\t\tLOAD GAME\n");
                 SetConsoleTextAttribute(console, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
                 printf("\t\tINFO\n");
@@ -51,7 +52,7 @@ void Menu(){
             {
                 printf("\t\tNEW GAME\n");
                 printf("\t\tLOAD GAME\n");
-                SetConsoleTextAttribute(console, Cyan);
+                SetConsoleTextAttribute(console, CyanForConsoleBackground);
                 printf("\t\tINFO\n");
                 SetConsoleTextAttribute(console, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
                 printf("\t\tEXIT\n");
@@ -62,7 +63,7 @@ void Menu(){
                 printf("\t\tNEW GAME\n");
                 printf("\t\tLOAD GAME\n");
                 printf("\t\tINFO\n");
-                SetConsoleTextAttribute(console, Cyan);
+                SetConsoleTextAttribute(console, CyanForConsoleBackground);
                 printf("\t\tEXIT\n");
                 SetConsoleTextAttribute(console, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
                 break;
@@ -106,7 +107,8 @@ void Menu(){
                         break;
                     }
                     case 3: {
-                        cout << "\ninfooooooooo";
+
+                        cout<<info();
                         getchar();
                         break;
                     }
@@ -126,4 +128,26 @@ void Menu(){
 
 
     } while (ok != 0);
+}
+
+//info function
+//displays the rules, commands and more on how to play the game
+string info(){
+    system("cls");
+    string mesInfo = "Program realizat de Melinte Alexandru \n"
+                     "//aici o sa vina instructiunile despre cum se joaca jocul\n"
+                     "//+reguli si comenzi";
+    return mesInfo;
+}
+
+
+//new game function
+//starts the sequence fo creating a new game moving the player throw that process
+//and letting him chose the settings of that game.
+//Steps on the way :
+//1. chose one of the save slots (1,2,3) and warn him if the save slot already has a game saved
+//
+void NewGame(){
+
+
 }
