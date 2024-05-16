@@ -17,7 +17,6 @@ int main() {
 
     try {
 
-
         Menu();
         cout << "\nEND\n";
         SaveGame();
