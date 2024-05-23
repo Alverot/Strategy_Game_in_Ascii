@@ -21,5 +21,7 @@ bool CheckIfFileIsEmpty(const string& save);
 
 void ColorTextBackgroung(const string& mes,int color);
 
+void InitializeGame();
+
 
 #endif //STRATEGY_GAME_IN_ASCII_GAMEMANAGINGFUNCTION_H

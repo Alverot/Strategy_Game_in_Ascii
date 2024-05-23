@@ -44,6 +44,8 @@ public:
     void setGold(int gold);
     int getWood() const;
     void setWood(int wood);
+    void setHumanOrAi(int humanOrAi);
+
 
 };
 

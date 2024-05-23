@@ -20,9 +20,6 @@ int main() {
         Menu();
         cout << "\nEND\n";
         SaveGame();
-        getchar();getchar();
-        filesystem::path currentPath = filesystem::current_path();
-        cout << "Current Working Directory: " << currentPath << endl;
     }
     catch(const char* mes)
     {

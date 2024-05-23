@@ -131,6 +131,10 @@ void Menu(){
                 switch (optcurenta) {
                     case 1: {
                         NewGame();
+                        if(GamePreparations == 2)
+                        {
+                            InitializeGame();
+                        }
                         getchar();
                         break;
                     }
@@ -334,11 +338,11 @@ void NewGame(){
         printf("(whrite < to go back to the menu)\n");
         printf("Select the how will control the player %d:",CurentPlayer);
         if(OptCurent == 0)
-        {ColorTextBackgroung("\nHuman",CyanForConsoleBackground);
-        }else{cout<<"\nHuman";}
-        if(OptCurent == 1)
         {ColorTextBackgroung("\nAi",CyanForConsoleBackground);
         }else{cout<<"\nAi";}
+        if(OptCurent == 1)
+        {ColorTextBackgroung("\nHuman",CyanForConsoleBackground);
+        }else{cout<<"\nHuman";}
         int opt= getch();
         if (opt == 0xE0) {
             opt = getch();
@@ -401,4 +405,11 @@ bool CheckIfFileIsEmpty(const string& save){
     ifstream fil(save);
     return fil.peek() == ifstream::traits_type::eof();
 
+}
+
+void InitializeGame(){
+
+    for(int i = 1 ; i <= NumberOfPlayers;i++){
+        player[i-1]->setHumanOrAi( PlayerControl[i]);
+    }
 }

@@ -73,3 +73,7 @@ int Player::getWood() const {
 void Player::setWood(int wood) {
     Wood = wood;
 }
+
+void Player::setHumanOrAi(int humanOrAi) {
+    HumanOrAi = humanOrAi;
+}
