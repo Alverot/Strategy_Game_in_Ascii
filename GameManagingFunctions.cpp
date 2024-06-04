@@ -220,7 +220,7 @@ void NewGame(){
         if(OptCurent == 3)
         {
             ColorTextBackgroung("\nSavaFile3",CyanForConsoleBackground);
-            if(CheckIfFileIsEmpty(SaveFile1))
+            if(CheckIfFileIsEmpty(SaveFile3))
                 cout<<" : File is empty";
             else{cout<<" : File is NOT empty";}
         }else{
@@ -401,6 +401,7 @@ void ColorTextBackgroung(const string& mes,int color)
 
 }
 
+//checks if a file is empty by looking at one position ahead and comparing it with eof(end of file)
 bool CheckIfFileIsEmpty(const string& save){
     ifstream fil(save);
     return fil.peek() == ifstream::traits_type::eof();
