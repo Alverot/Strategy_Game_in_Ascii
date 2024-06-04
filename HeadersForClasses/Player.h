@@ -29,12 +29,13 @@ protected:
     int Gold;
     int Wood;
     int HumanOrAi; //false is Ai true is Human controlled
-    Color PlayerColor;    //if color is not specified then the program will distribute them in oder
-
+    Color PlayerColor;//if color is not specified then the program will distribute them in oder
 public:
+    virtual ~Player();
 
     Player();
     Player(int food,int stone,int gold,int wood,int val = 0);
+    Player(int food,int stone,int gold,int wood,int val,int col);
     string ConvertPlayerForSave();
     int getFood() const;
     void setFood(int food);
@@ -45,6 +46,10 @@ public:
     int getWood() const;
     void setWood(int wood);
     void setHumanOrAi(int humanOrAi);
+
+    Player& operator +=(float nr);
+    Player& operator -=(float nr);
+    Player& operator =(const Player &player);
 
 
 };

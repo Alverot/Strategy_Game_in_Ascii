@@ -34,6 +34,9 @@ class Tile {
     Tile();
     Tile(int TerrainType,int PlayerControl,int SettlementType,int SettlementLevel,int TileNumber);
 
+    //METHODS
+
+    Tile& operator =(const Tile &til);
 
     //GETTERS
     Terrain getTerrainType() const;

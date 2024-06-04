@@ -50,6 +50,17 @@ char* Tile::ConvetrForSave() {
     return s;
 }
 
+Tile& Tile::operator =(const Tile &til){
+    TerrainType = til.TerrainType;
+    SettlementLevel = til.SettlementLevel;
+    PlayerControl = til.PlayerControl;
+    SettlementType = til.SettlementType;
+    TileNumber = til.TileNumber;
+    ArmyOwner = til.ArmyOwner;
+    ArmyNumber = til.ArmyNumber;
+    return *this;
+}
+
 //getters implementation
 
 Terrain Tile::getTerrainType() const {

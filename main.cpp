@@ -19,7 +19,7 @@ int main() {
 
         Menu();
         cout << "\nEND\n";
-        SaveGame();
+
     }
     catch(const char* mes)
     {

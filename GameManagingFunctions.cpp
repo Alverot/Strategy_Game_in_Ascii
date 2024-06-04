@@ -13,6 +13,13 @@ using namespace std;
 
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);//for changing colors
 
+
+//SEPARATORS
+
+const char SecondarySeparator= ',';
+const char MainSeparator= '|';
+
+
 //CONSTANTS
 
 const string SaveFile1 = "../SaveFiles/Save1.txt";
@@ -22,22 +29,24 @@ const string FileForInterface = "../SaveFiles/Interface.txt";
 
 
 fstream file;
+fstream fille;
 
 //VARIABLES
 
 string SelectedSaveFile = SaveFile1;
-int NumberOfPlayers = 2;
+int NumberOfPlayers = 2;            //default is set to 2
 int PlayerControl[10];
-int Turn = 1;
+int Turn = 1;                       //at the beginning is set to 1
 int GamePreparations = 0; // at this moment 2 if all are done
 
 
 Player *player[8];
-Map map;
+Map CurrentGameMap;
 
 //COLORS
 
 const int CyanForConsoleBackground = BACKGROUND_BLUE | BACKGROUND_GREEN;
+const int RedForConsoleBackground = BACKGROUND_RED;
 
 
 //FUNCTIONS
@@ -131,14 +140,18 @@ void Menu(){
                         NewGame();
                         if(GamePreparations == 2)
                         {
-                            InitializeGame();
+                            InitializeGameFromNewGame();
                         }
+                        Map mmap;
+                        CurrentGameMap = mmap;
+                        SaveGame();
+                        PrepareInterfaceForGame(1);
                         getchar();
                         break;
                     }
                     case 2: {
-                        cout << "\nload game";
-                        getchar();
+                        LoadGame();
+
                         break;
                     }
                     case 3: {
@@ -189,7 +202,6 @@ string info(){
 void NewGame(){
     int ok = 1;
     int OptCurent = 1;
-    int cancel = 0; // if the user decides to go back to the menu
     //for getting the savefile
     do{
         system("cls");
@@ -260,8 +272,6 @@ void NewGame(){
     ok =1;
     OptCurent = 2;
     do{
-        if(cancel == 1)
-            break;
         system("cls");
         printf("\tNewGame\n");
         printf("Select the number of players:");
@@ -317,8 +327,6 @@ void NewGame(){
     OptCurent = 0;
     int CurentPlayer = 1;
     do{
-        if(cancel == 1)
-            break;
         system("cls");
         printf("\tNewGame\n");
         printf("Select the how will control the player %d:",CurentPlayer);
@@ -360,20 +368,16 @@ void SaveGame(){
     file.open(SelectedSaveFile,ios::out | ios::trunc);//deletes the existing file before writing something new
 
     if (file.is_open()) {
-        file<<Turn<<endl;
+        file<<Turn<<endl;           //saves the turn number
+        file<<NumberOfPlayers<<endl;    //number of players
         for(int i = 0; i<NumberOfPlayers;i++)
-            file << player[i]->ConvertPlayerForSave()<<endl;
-        file << map.ConvertMapForSave();
+            file << player[i]->ConvertPlayerForSave()<<endl;        //the information about the players
+        file << CurrentGameMap.ConvertMapForSave();                            //the 10*10 map
     } else {
         cerr << "Error: Could not create or open file for writing." << endl;
     }
     file.close();
 }
-
-void CheckIfFileIsEmpty(){
-
-}
-
 void ColorTextBackgroung(const string& mes,int color)
 {
     SetConsoleTextAttribute(console, color);
@@ -389,9 +393,142 @@ bool CheckIfFileIsEmpty(const string& save){
 
 }
 
-void InitializeGame(){
+void InitializeGameFromNewGame(){
 
     for(int i = 1 ; i <= NumberOfPlayers;i++){
         player[i-1]->setHumanOrAi( PlayerControl[i]);
     }
+}
+
+
+void LoadGame(){
+    int ok = 1;
+    bool okLoad = false;
+    int OptCurent = 1;
+    //for getting the savefile
+    do{
+        system("cls");
+        printf("\tNewGame\n");
+
+        printf("Select a save file:");
+        if(OptCurent == 1)
+        {
+            ColorTextBackgroung("\nSavaFile1",CyanForConsoleBackground);
+            if(CheckIfFileIsEmpty(SaveFile1))
+            {
+                cout << " : File is empty!!";
+                okLoad = false;
+            }
+            else
+            {
+                cout<<" : File is NOT empty";
+                okLoad = true;
+            }
+        }else{
+            cout<<"\nSavaFile1";
+        }
+        if(OptCurent == 2)
+        {
+            ColorTextBackgroung("\nSavaFile2",CyanForConsoleBackground);
+            if(CheckIfFileIsEmpty(SaveFile2))
+            {
+                cout << " : File is empty!!";
+                okLoad = false;
+            }
+            else
+            {
+                cout<<" : File is NOT empty";
+                okLoad = true;
+            }
+        }else{
+            cout<<"\nSavaFile2";
+        }
+        if(OptCurent == 3)
+        {
+            ColorTextBackgroung("\nSavaFile3",CyanForConsoleBackground);
+            if(CheckIfFileIsEmpty(SaveFile3))
+            {
+                cout << " : File is empty!!";
+                okLoad = false;
+            }
+            else
+            {
+                cout<<" : File is NOT empty";
+                okLoad = true;
+            }
+        }else{
+            cout<<"\nSavaFile3";
+        }
+        int opt= getch();
+        if (opt == 0xE0) {
+            opt = getch();
+
+            switch (opt) {
+                case 72: {
+                    if(OptCurent > 1){
+                        OptCurent = OptCurent - 1;
+                    }
+                    break;
+                }
+                case 80:{
+                    if(OptCurent <3){
+                        OptCurent++;
+                    }
+
+                    break;
+                }
+                default: break;
+            }
+        }else if (opt == 13){
+            ok = 0;
+            GamePreparations++;
+            if(OptCurent == 1 && okLoad)
+                SelectedSaveFile = SaveFile1;
+            else if(OptCurent == 2 && okLoad){
+                SelectedSaveFile = SaveFile2;
+            }else if(OptCurent == 3 && okLoad){
+                SelectedSaveFile = SaveFile3;
+            }
+            if(!okLoad)
+            {
+                ColorTextBackgroung("\nPlease Select a save that is not empty!!!",RedForConsoleBackground);
+                ok = 1;
+                getchar();
+            }
+        }
+    } while (ok != 0);
+
+}
+
+
+//ideea Y tree ^ mountain m hills? _ plain?
+
+//L'\u2514' is ?
+
+void PrepareInterfaceForGame(int SelectedPlayerNumber){
+    fille.open(SelectedSaveFile,ios::in);
+    string line;
+    getline(fille,line);
+
+    file.open(FileForInterface,ios::out | ios::trunc);
+    file << "Turn : "<<line;
+
+    getline(fille,line);    //number of players
+    file<<"           Player "<<SelectedPlayerNumber<<" of "<<line;
+    int NrPlayerCitit = (int)line[0];
+    for(int i = 1;i <=NrPlayerCitit; i++)
+    {
+        getline(fille,line);
+        if(i==SelectedPlayerNumber)
+        {
+
+            file<<"    Food: "<<i<<"  Wood: "<<i<<"  Stone: "<<i<<"  Gold: "<<i;
+        }
+    }
+
+
+    file.close();
+    fille.close();
+
+
 }
