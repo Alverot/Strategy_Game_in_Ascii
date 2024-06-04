@@ -49,8 +49,6 @@ void Menu(){
     //TEMP
     for(int i =0 ; i<8; i++)
         player[i] = new Player();
-
-
     //TEMP
 
     int ok =1;
@@ -196,7 +194,6 @@ void NewGame(){
     do{
         system("cls");
         printf("\tNewGame\n");
-        printf("(whrite < to go back to the menu)\n");
 
         printf("Select a save file:");
         if(OptCurent == 1)
@@ -256,11 +253,6 @@ void NewGame(){
             }else if(OptCurent == 3){
                 SelectedSaveFile = SaveFile3;
             }
-        } else if(toupper(opt) == '<')
-        {
-            cancel = 1;
-            GamePreparations = 0;
-            break;
         }
     } while (ok != 0);
 
@@ -272,7 +264,6 @@ void NewGame(){
             break;
         system("cls");
         printf("\tNewGame\n");
-        printf("(whrite < to go back to the menu)\n");
         printf("Select the number of players:");
         if(OptCurent == 2)
         {ColorTextBackgroung("\n2",CyanForConsoleBackground);
@@ -320,11 +311,6 @@ void NewGame(){
             ok = 0;
             GamePreparations++;
             NumberOfPlayers = OptCurent;
-        } else if(toupper(opt) == '<')
-        {
-            GamePreparations = 0;
-            break;
-
         }
     }while(ok != 0);
 
@@ -335,7 +321,6 @@ void NewGame(){
             break;
         system("cls");
         printf("\tNewGame\n");
-        printf("(whrite < to go back to the menu)\n");
         printf("Select the how will control the player %d:",CurentPlayer);
         if(OptCurent == 0)
         {ColorTextBackgroung("\nAi",CyanForConsoleBackground);
@@ -365,10 +350,6 @@ void NewGame(){
         }else if (opt == 13){
             PlayerControl[CurentPlayer] = OptCurent;
             CurentPlayer++;
-        } else if(toupper(opt) == '<')
-        {
-            GamePreparations = 0;
-            break;
         }
     }while(CurentPlayer <= NumberOfPlayers);
 }
