@@ -15,6 +15,7 @@ private :
 public:
     Exceptions(const char *LocExc, const char *MesExc);
     void PrintExc();
+    virtual ~Exceptions();
 };
 
 

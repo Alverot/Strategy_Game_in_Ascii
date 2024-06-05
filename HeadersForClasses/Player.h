@@ -34,8 +34,9 @@ public:
     virtual ~Player();
 
     Player();
-    Player(int food,int stone,int gold,int wood,int val = 0);
-    Player(int food,int stone,int gold,int wood,int val,int col);
+
+    Player(int food,int wood,int stone,int gold,int val = 0);
+    Player(int food,int wood,int stone,int gold,int val,int col);
     string ConvertPlayerForSave();
     int getFood() const;
     void setFood(int food);

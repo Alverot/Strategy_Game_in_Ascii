@@ -2,9 +2,9 @@
 #include <fstream>
 #include <string>
 #include <stdlib.h>
+#include <sstream>
 #include <windows.h>
 #include <conio.h>
-#include <fstream>
 #include "Headers/GameManagingFunction.h"
 #include "HeadersForClasses/Player.h"
 #include "HeadersForClasses/Map.h"
@@ -16,8 +16,8 @@ HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);//for changing colors
 
 //SEPARATORS
 
-const char SecondarySeparator= ',';
-const char MainSeparator= '|';
+const char* SecondarySeparator= ",";
+const char* MainSeparator= "|";
 
 
 //CONSTANTS
@@ -33,7 +33,7 @@ fstream fille;
 
 //VARIABLES
 
-string SelectedSaveFile = SaveFile1;
+string SelectedSaveFile = SaveFile3;
 int NumberOfPlayers = 2;            //default is set to 2
 int PlayerControl[10];
 int Turn = 1;                       //at the beginning is set to 1
@@ -150,6 +150,14 @@ void Menu(){
                         break;
                     }
                     case 2: {
+                        bool OKload = true;
+                        if(CheckIfFileIsEmpty(SaveFile1) && CheckIfFileIsEmpty(SaveFile2) && CheckIfFileIsEmpty(SaveFile3)){
+                            OKload = false;
+                        }
+                        if(!OKload){
+                            ColorTextBackgroung("!!NO SAVE TO LOAD!!",RedForConsoleBackground);
+                            getchar();
+                        }
                         LoadGame();
 
                         break;
@@ -498,6 +506,68 @@ void LoadGame(){
         }
     } while (ok != 0);
 
+}
+
+void CovertSelectedFileToData(){
+    file.open(SelectedSaveFile,ios::in);// opening the file
+
+    string line;
+    getline(file,line);//reading first line(turn number)
+    Turn = stoi(line);      //converting to  int
+
+    getline(file,line);//reading Number of players
+    NumberOfPlayers = stoi(line);
+    for(int i = 0; i<NumberOfPlayers;i++) // reads and updates all the players statistics
+    {
+        getline(file,line);
+        istringstream iss(line);
+        string segment;
+        int segmentConvToint[10];
+        int j = 0;
+        while (getline(iss, segment, ','))
+        {
+            segmentConvToint[j] = stoi(segment);
+            j++;
+        }
+        player[i] = new Player(segmentConvToint[0],segmentConvToint[1],segmentConvToint[2],segmentConvToint[3],segmentConvToint[4],segmentConvToint[5]);
+    }
+
+    for(int i = 0; i < 10 ; i++)     //reads and converts all the tiles
+    {
+        getline(file,line);
+        char* lineCH = new char[line.size() + 1];
+        strcpy(lineCH, line.c_str());
+
+        int j = 0;
+        char* mainContext; //forstrtok_r
+        char* StringTile = strtok_r(lineCH, MainSeparator,&mainContext);   //separates in tiles  ex 0,2,0,0,0,0,0|
+
+        while (StringTile != nullptr) {
+            char* secondaryContext;
+            char* StringTileVariable = strtok_r(StringTile, SecondarySeparator,&secondaryContext);   //separates in tiles  ex 0,2,0,0,0,0,0|
+            int tempvect[10] = {0};
+            int tempVectIndex = 0;
+            while (StringTileVariable != nullptr) {
+                tempvect[tempVectIndex] = stoi(StringTileVariable);
+                tempVectIndex++;
+                StringTileVariable = strtok_r(nullptr,SecondarySeparator,&secondaryContext);
+            }
+            int indexNum = i*100+j;
+            CurrentGameMap[indexNum].setTileNumber(tempvect[0]);
+            CurrentGameMap[indexNum].setTerrainType(tempvect[1]);
+            CurrentGameMap[indexNum].setPlayerControl(tempvect[2]);
+            CurrentGameMap[indexNum].setSettlementType(tempvect[3]);
+            CurrentGameMap[indexNum].setSettlementLevel(tempvect[4]);
+            CurrentGameMap[indexNum].setArmyNumber(tempvect[5]);
+            CurrentGameMap[indexNum].setArmyOwner(tempvect[6]);
+            j++;
+
+            StringTile = strtok_r(nullptr,MainSeparator, &mainContext);
+        }
+        cout<<endl;
+        delete[] lineCH;
+    }
+    file.close();   //colsing the file
 }
 
 

@@ -95,7 +95,13 @@ int Tile::getArmyNumber() const {
 
 //setters implementation
 void Tile::setTerrainType(int terrainType) {
-    TerrainType = (Terrain)terrainType;
+    if (terrainType > 4 or terrainType < 0)
+        throw Exceptions("Tile.cpp_CONS","not a value the enum");
+    else{
+        this->TerrainType = (Terrain)terrainType;
+    }
+
+
 }
 
 void Tile::setPlayerControl(int playerControl) {

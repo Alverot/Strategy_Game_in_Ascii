@@ -25,6 +25,8 @@ void ColorTextBackgroung(const string& mes,int color);
 
 void InitializeGameFromNewGame();
 
+void CovertSelectedFileToData();
+
 void PrepareInterfaceForGame(int SelectedPlayerNumber);//converts the selected save file in a usable interface for a specific player
 
 

@@ -16,7 +16,7 @@ Player::Player(){
     PlayerColor = (Color)NRCollor++;
 }
 
-Player::Player(int food,int stone,int gold,int wood,int val){
+Player::Player(int food,int wood,int stone,int gold,int val){
     Food = food;
     Wood = wood;
     Stone = stone;
@@ -33,7 +33,7 @@ Player::Player(int food,int stone,int gold,int wood,int val){
     PlayerColor = (Color)NRCollor++;
 }
 
-Player::Player(int food,int stone,int gold,int wood,int val,int col){
+Player::Player(int food,int wood,int stone,int gold,int val,int col){
     Food = food;
     Wood = wood;
     Stone = stone;
@@ -43,7 +43,7 @@ Player::Player(int food,int stone,int gold,int wood,int val,int col){
         throw Exceptions("Player.cpp_Constructor","not a value for player type");
     }
     HumanOrAi = val;
-    if(NRCollor > 8 )
+    if(col > 8 )
     {
         throw Exceptions("Player.cpp_Constructor","not a value the Color enum");
     }
