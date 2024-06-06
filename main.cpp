@@ -28,8 +28,6 @@ int main() {
         cout<<adsadada[909].getTerrainType();
         getchar();
          */
-        CovertSelectedFileToData();
-
     }
     catch(const char* mes)
     {

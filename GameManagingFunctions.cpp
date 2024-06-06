@@ -33,7 +33,7 @@ fstream fille;
 
 //VARIABLES
 
-string SelectedSaveFile = SaveFile3;
+string SelectedSaveFile = SaveFile1;
 int NumberOfPlayers = 2;            //default is set to 2
 int PlayerControl[10];
 int Turn = 1;                       //at the beginning is set to 1
@@ -47,7 +47,12 @@ Map CurrentGameMap;
 
 const int CyanForConsoleBackground = BACKGROUND_BLUE | BACKGROUND_GREEN;
 const int RedForConsoleBackground = BACKGROUND_RED;
-
+const int BlueForConsoleBackground = BACKGROUND_BLUE;
+const int GreenForConsoleBackground = BACKGROUND_GREEN;
+const int YellowForConsoleBackground = 0x80;
+const int OrangeForConsoleBackground = BACKGROUND_RED | 0x80;
+const int MagentaForConsoleBackground = BACKGROUND_RED | BACKGROUND_BLUE;
+const int PinkForConsoleBackground = FOREGROUND_RED | FOREGROUND_INTENSITY | BACKGROUND_BLUE;
 
 //FUNCTIONS
 void testtt(){
@@ -159,7 +164,22 @@ void Menu(){
                             getchar();
                         }
                         LoadGame();
+                        CovertSelectedFileToData();
 
+                        PrepareInterfaceForGame(1);
+                        
+                        stringstream buffer;
+                        file.open(FileForInterface,ios::in);
+                        buffer << file.rdbuf();
+
+                        cout<<endl;
+                        cout<< buffer.str();
+                        file.close();
+
+
+
+
+                        getchar();
                         break;
                     }
                     case 3: {
@@ -564,7 +584,6 @@ void CovertSelectedFileToData(){
 
             StringTile = strtok_r(nullptr,MainSeparator, &mainContext);
         }
-        cout<<endl;
         delete[] lineCH;
     }
     file.close();   //colsing the file
@@ -573,32 +592,113 @@ void CovertSelectedFileToData(){
 
 //ideea Y tree ^ mountain m hills? _ plain?
 
-//L'\u2514' is ?
-
 void PrepareInterfaceForGame(int SelectedPlayerNumber){
-    fille.open(SelectedSaveFile,ios::in);
-    string line;
-    getline(fille,line);
 
     file.open(FileForInterface,ios::out | ios::trunc);
-    file << "Turn : "<<line;
+    file << "Turn : "<<Turn;
 
-    getline(fille,line);    //number of players
-    file<<"           Player "<<SelectedPlayerNumber<<" of "<<line;
-    int NrPlayerCitit = (int)line[0];
-    for(int i = 1;i <=NrPlayerCitit; i++)
+    file<<"           Player "<<SelectedPlayerNumber<<" of "<<NumberOfPlayers;
+    file<<"    \t\t\tFood: "<<player[SelectedPlayerNumber-1]->getFood()<<"  Wood: "<<player[SelectedPlayerNumber-1]->getWood()<<"  Stone: "<<player[SelectedPlayerNumber-1]->getStone()<<"  Gold: "<<player[SelectedPlayerNumber-1]->getGold();
+    file<<endl;
+    for(int i = 0; i <100;i++)
+        file<<(char)205;
+
+    for(int i = 0 ; i<10 ; i++)
     {
-        getline(fille,line);
-        if(i==SelectedPlayerNumber)
-        {
+        char* buff1 = new char[100];
+        char* buff2 = new char[100];
 
-            file<<"    Food: "<<i<<"  Wood: "<<i<<"  Stone: "<<i<<"  Gold: "<<i;
+        sprintf(buff1,"\n");
+        sprintf(buff2,"\n");
+
+        for(int j = 0 ; j<10 ; j++)
+        {
+            int indexNum = i*100+j;
+            int CollPlay = CurrentGameMap[indexNum].getPlayerControl();
+            int Terr = CurrentGameMap[indexNum].getTerrainType();
+            int Army = CurrentGameMap[indexNum].getArmyNumber();
+            int SetType = CurrentGameMap[indexNum].getSettlementType();
+            int SetLevel = CurrentGameMap[indexNum].getSettlementLevel();
+            switch (Terr)
+            {
+                case 1:
+                    sprintf(buff1,"%s_ ",buff1);
+                    break;
+                case 2:
+                    sprintf(buff1,"%sm ",buff1);
+                    break;
+                case 3:
+                    sprintf(buff1,"%sY ",buff1);
+                    break;
+                case 4:
+                    sprintf(buff1,"%s^ ",buff1);
+                    break;
+            }
+            if(Army != 0)
+                sprintf(buff1,"%s# ",buff1);
+            else
+                sprintf(buff1,"%s0 ",buff1);
+            sprintf(buff1,"%s%c",buff1,186);
+
+            switch (SetType)
+            {
+                case 0:
+                    sprintf(buff2,"%s0 ",buff2);
+                    break;
+                case 1:
+                    sprintf(buff2,"%sV ",buff2);
+                    break;
+                case 2:
+                    sprintf(buff2,"%sF ",buff2);
+                    break;
+                case 3:
+                    sprintf(buff2,"%sL ",buff2);
+                    break;
+                case 4:
+                    sprintf(buff2,"%sM ",buff2);
+                    break;
+            }
+            if(SetLevel < 10)
+            {
+                sprintf(buff2,"%s%d ",buff2,SetLevel);
+            }else if(SetLevel == 10){
+                sprintf(buff2,"%s* ",buff2);
+            }
+            sprintf(buff2,"%s%c",buff2,186);
+
         }
+        file<<buff1;
+        file<<buff2;
+        file<<"\n";
+        for(int k = 0; k < 10 ; k++){
+            file<<(char)205<<(char)205<<(char)205<<(char)205<<(char)206;
+        }
+
     }
 
 
     file.close();
-    fille.close();
+}
 
+void PrintWithColor(){
 
+    system("cls");
+    stringstream buffer;
+    file.open(FileForInterface,ios::in);
+    buffer << file.rdbuf();
+
+    cout<<endl;
+    cout<< buffer.str();
+    file.close();
+
+    cout<<endl;
+    for(int i = 0 ; i < 10 ;i++){
+        for(int j = 0 ; j < 10 ; j++){
+            int indexNum = i*100+j;
+            int PlayerColl = CurrentGameMap[indexNum].getPlayerControl();
+            if(PlayerColl != 0){
+
+            }
+        }
+    }
 }

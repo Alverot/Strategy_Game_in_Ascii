@@ -8,14 +8,14 @@
 //all ot the properties for the tile class
 //ths objects will be used in the map class that will manage a table of objects
 
-enum Terrain {plain = 1, forest = 2, hills = 3, mountains = 4}; // the terrain types
+enum Terrain {plain = 1, hills = 2, forest = 3, mountains = 4}; // the terrain types
 
 class Tile {
     protected:
 
         Terrain TerrainType;
         int PlayerControl;
-        int SettlementType;
+        int SettlementType;     //1 village   2 farm    3 lumber camp    4 mine
         int SettlementLevel;
         int TileNumber;       //the number of the tile on the map(for formatting purposes)
         int ArmyNumber;      //all the armies will be stored in an array and it will check the size of the army at that location

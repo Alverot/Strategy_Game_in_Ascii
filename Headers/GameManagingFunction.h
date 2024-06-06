@@ -27,6 +27,8 @@ void InitializeGameFromNewGame();
 
 void CovertSelectedFileToData();
 
+void PrintWithColor();
+
 void PrepareInterfaceForGame(int SelectedPlayerNumber);//converts the selected save file in a usable interface for a specific player
 
 
