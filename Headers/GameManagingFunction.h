@@ -8,7 +8,6 @@
 
 using namespace std;
 
-void testtt();
 
 void Menu();//Menu implementation
 std::string info();//displays the rules, commands and more on how to play the game
@@ -27,9 +26,12 @@ void InitializeGameFromNewGame();
 
 void CovertSelectedFileToData();
 
-void PrintWithColor();
+//void PrintWithColor();
 
 void PrepareInterfaceForGame(int SelectedPlayerNumber);//converts the selected save file in a usable interface for a specific player
 
+void GameLoopAndComands();
+
+void CalculateIncome();
 
 #endif //STRATEGY_GAME_IN_ASCII_GAMEMANAGINGFUNCTION_H

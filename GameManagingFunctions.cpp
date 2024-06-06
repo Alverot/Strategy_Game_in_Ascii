@@ -41,7 +41,9 @@ int GamePreparations = 0; // at this moment 2 if all are done
 
 
 Player *player[8];
+int CurrentPlayerTurn;
 Map CurrentGameMap;
+int SelectedTile =0;
 
 //COLORS
 
@@ -49,15 +51,13 @@ const int CyanForConsoleBackground = BACKGROUND_BLUE | BACKGROUND_GREEN;
 const int RedForConsoleBackground = BACKGROUND_RED;
 const int BlueForConsoleBackground = BACKGROUND_BLUE;
 const int GreenForConsoleBackground = BACKGROUND_GREEN;
-const int YellowForConsoleBackground = 0x80;
-const int OrangeForConsoleBackground = BACKGROUND_RED | 0x80;
+const int YellowForConsoleBackground = BACKGROUND_RED | BACKGROUND_GREEN;
+const int OrangeForConsoleBackground =  BACKGROUND_GREEN | BACKGROUND_INTENSITY;
 const int MagentaForConsoleBackground = BACKGROUND_RED | BACKGROUND_BLUE;
-const int PinkForConsoleBackground = FOREGROUND_RED | FOREGROUND_INTENSITY | BACKGROUND_BLUE;
+const int PinkForConsoleBackground = BACKGROUND_RED | BACKGROUND_INTENSITY;
 
 //FUNCTIONS
-void testtt(){
-    printf("Merge bine ............cered");
-}
+
 
 void Menu(){
     //TEMP
@@ -150,7 +150,8 @@ void Menu(){
                         Map mmap;
                         CurrentGameMap = mmap;
                         SaveGame();
-                        PrepareInterfaceForGame(1);
+                        CovertSelectedFileToData();
+                        GameLoopAndComands();
                         getchar();
                         break;
                     }
@@ -165,19 +166,7 @@ void Menu(){
                         }
                         LoadGame();
                         CovertSelectedFileToData();
-
-                        PrepareInterfaceForGame(1);
-                        
-                        stringstream buffer;
-                        file.open(FileForInterface,ios::in);
-                        buffer << file.rdbuf();
-
-                        cout<<endl;
-                        cout<< buffer.str();
-                        file.close();
-
-
-
+                        GameLoopAndComands();
 
                         getchar();
                         break;
@@ -211,8 +200,22 @@ void Menu(){
 string info(){
     system("cls");
     string mesInfo = "Program realizat de Melinte Alexandru \n"
-                     "//aici o sa vina instructiunile despre cum se joaca jocul\n"
-                     "//+reguli si comenzi";
+                     "      LEGENDA : \n"
+                     "V - village 10 gold per turn          _ - plain\n"
+                     "F - farm generates 10 food            m - hills\n"
+                     "L - lumber camp generates 10 wood     Y - forest\n"
+                     "M - mine generates 10 stone           ^ - mountain\n\n"
+                     "Resources are generate in this way Building level * 10  per turn of the resource produced by that buiding\n\n"
+                     "COMANDS:\n"
+                     "next jumps to next turn\n"
+                     "save saves the game\n"
+                     "claim  claims a teritory\n"
+                     "build and that V,F,L,M builds the selected building(if you own that teritory and 50 Wood and 50 Stone)\n"
+                     "upgrade to a maximum of 10 levels per building(costs 50 Food 25 wood 25 stone)\n"
+                     "select lrtd you whrite a number like 109 to select tile situated at line 1 column 9(only works if in parameters)\n"
+                     "help prints the info screen\n"
+                     "exit closes the program\n"
+                     "trade pay 50 gold for 10 food 10 wood 10 stone\n";
     return mesInfo;
 }
 
@@ -594,21 +597,22 @@ void CovertSelectedFileToData(){
 
 void PrepareInterfaceForGame(int SelectedPlayerNumber){
 
-    file.open(FileForInterface,ios::out | ios::trunc);
-    file << "Turn : "<<Turn;
+    //file.open(FileForInterface,ios::out | ios::trunc);
+    cout << "Turn : "<<Turn;
 
-    file<<"           Player "<<SelectedPlayerNumber<<" of "<<NumberOfPlayers;
-    file<<"    \t\t\tFood: "<<player[SelectedPlayerNumber-1]->getFood()<<"  Wood: "<<player[SelectedPlayerNumber-1]->getWood()<<"  Stone: "<<player[SelectedPlayerNumber-1]->getStone()<<"  Gold: "<<player[SelectedPlayerNumber-1]->getGold();
-    file<<endl;
+    cout<<"           Player "<<SelectedPlayerNumber<<" of "<<NumberOfPlayers;
+    cout<<"    \t\t\tFood: "<<player[SelectedPlayerNumber-1]->getFood()<<"  Wood: "<<player[SelectedPlayerNumber-1]->getWood()<<"  Stone: "<<player[SelectedPlayerNumber-1]->getStone()<<"  Gold: "<<player[SelectedPlayerNumber-1]->getGold();
+    cout<<endl;
     for(int i = 0; i <100;i++)
-        file<<(char)205;
+        cout<<(char)205;
 
     for(int i = 0 ; i<10 ; i++)
     {
-        char* buff1 = new char[100];
+        //char* buff1 = new char[100];
         char* buff2 = new char[100];
 
-        sprintf(buff1,"\n");
+        //sprintf(buff1,"\n");
+        cout<<"\n";
         sprintf(buff2,"\n");
 
         for(int j = 0 ; j<10 ; j++)
@@ -619,26 +623,56 @@ void PrepareInterfaceForGame(int SelectedPlayerNumber){
             int Army = CurrentGameMap[indexNum].getArmyNumber();
             int SetType = CurrentGameMap[indexNum].getSettlementType();
             int SetLevel = CurrentGameMap[indexNum].getSettlementLevel();
+
+            switch(CollPlay){
+                case 0:
+                    break;
+                case 1:
+                    SetConsoleTextAttribute(console, BlueForConsoleBackground);
+                    break;
+                case 2:
+                    SetConsoleTextAttribute(console, RedForConsoleBackground);
+                    break;
+                case 3:
+                    SetConsoleTextAttribute(console, GreenForConsoleBackground);
+                    break;
+                case 4:
+                    SetConsoleTextAttribute(console, CyanForConsoleBackground);
+                    break;
+                case 5:
+                    SetConsoleTextAttribute(console, OrangeForConsoleBackground);
+                    break;
+                case 6:
+                    SetConsoleTextAttribute(console, PinkForConsoleBackground);
+                    break;
+                case 7:
+                    SetConsoleTextAttribute(console, MagentaForConsoleBackground);
+                    break;
+                case 8:
+                    SetConsoleTextAttribute(console, YellowForConsoleBackground);
+                    break;
+            }
             switch (Terr)
             {
                 case 1:
-                    sprintf(buff1,"%s_ ",buff1);
+                    cout<<"_ ";
                     break;
                 case 2:
-                    sprintf(buff1,"%sm ",buff1);
+                    cout<<"m ";
                     break;
                 case 3:
-                    sprintf(buff1,"%sY ",buff1);
+                    cout<<"Y ";
                     break;
                 case 4:
-                    sprintf(buff1,"%s^ ",buff1);
+                    cout<<"^ ";
                     break;
             }
+            SetConsoleTextAttribute(console, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
             if(Army != 0)
-                sprintf(buff1,"%s# ",buff1);
+                cout<<"# ";
             else
-                sprintf(buff1,"%s0 ",buff1);
-            sprintf(buff1,"%s%c",buff1,186);
+                cout<<"0 ";
+            cout<<(char)186;
 
             switch (SetType)
             {
@@ -667,38 +701,161 @@ void PrepareInterfaceForGame(int SelectedPlayerNumber){
             sprintf(buff2,"%s%c",buff2,186);
 
         }
-        file<<buff1;
-        file<<buff2;
-        file<<"\n";
+        //file<<buff1;
+        cout<<buff2<<i;
+        cout<<"\n";
         for(int k = 0; k < 10 ; k++){
-            file<<(char)205<<(char)205<<(char)205<<(char)205<<(char)206;
+            cout<<(char)205<<(char)205<<(char)205<<(char)205<<(char)206;
         }
 
     }
 
-
-    file.close();
+    //file.close();
 }
 
-void PrintWithColor(){
 
-    system("cls");
-    stringstream buffer;
-    file.open(FileForInterface,ios::in);
-    buffer << file.rdbuf();
-
-    cout<<endl;
-    cout<< buffer.str();
-    file.close();
-
-    cout<<endl;
-    for(int i = 0 ; i < 10 ;i++){
-        for(int j = 0 ; j < 10 ; j++){
+void CalculateIncome(){
+    for(int i = 0 ; i < 10;i++){
+        for(int j = 0; j< 10 ; j++){
             int indexNum = i*100+j;
-            int PlayerColl = CurrentGameMap[indexNum].getPlayerControl();
-            if(PlayerColl != 0){
+            if(CurrentGameMap[indexNum].getPlayerControl() != 0){
+                int buidty =CurrentGameMap[indexNum].getSettlementType();
+                int buldlv =CurrentGameMap[indexNum].getSettlementLevel();
+                int ply = CurrentGameMap[indexNum].getPlayerControl();
+                switch (buidty) {
+                    case 1:
+                        *player[ply-1]+=(10*buldlv+0.41f);
+                        break;
+                    case 2:
+                        *player[ply-1]+=(10*buldlv+0.11f);
+                        break;
+                    case 3:
+                        *player[ply-1]+=(10*buldlv+0.21f);
+                        break;
+                    case 4:
+                        *player[ply-1]+=(10*buldlv+0.31f);
+                        break;
+
+                }
 
             }
         }
+    }
+    for(int i = 0 ; i < NumberOfPlayers;i++){
+        *player[i]+=(10+0.41f);
+    }
+}
+
+//all the comands
+void GameLoopAndComands(){
+    CurrentPlayerTurn = 1;
+    while(1){
+        system("cls");
+        PrepareInterfaceForGame(CurrentPlayerTurn);
+        cout<<endl<<"0    1    2    3    4    5    6    7    8    9";
+        cout<<endl<<"Curent selected tile : "<< SelectedTile/100<<"-"<<SelectedTile%100;
+        cout<<endl<<"Your comand: "<<endl;
+        string line;
+        getline(std::cin, line);
+
+        if(line == "select"){
+            cout<<endl<<"Select tile : ";
+            string ind;
+            getline(std::cin, ind);
+            int buffff = stoi(ind);
+            if(buffff >= 0  and buffff <= 909)
+            {
+                SelectedTile  = buffff;
+            }
+        }
+
+        if(line == "save")
+        {
+            SaveGame();
+        }
+        if(line== "help")
+        {
+            cout<<info();
+            getchar();
+        }
+        if(line == "exit"){
+            break;
+        }
+        if(line == "claim"){
+            int x =SelectedTile/100;
+            int y =SelectedTile%100;
+            if(player[CurrentPlayerTurn-1]->getGold() >= 100 and CurrentGameMap[SelectedTile].getPlayerControl() == 0 ){
+                *player[CurrentPlayerTurn-1]-=(100+0.41f);
+                CurrentGameMap[SelectedTile].setPlayerControl(CurrentPlayerTurn);
+            }
+
+        }
+
+        if(line == "upgrade"){
+            int x =SelectedTile/100;
+            int y =SelectedTile%100;
+            if(player[CurrentPlayerTurn-1]->getFood() >= 50 and player[CurrentPlayerTurn-1]->getWood() >= 25 and player[CurrentPlayerTurn-1]->getStone() >= 25 and CurrentGameMap[SelectedTile].getSettlementType() != 0 and CurrentGameMap[SelectedTile].getSettlementLevel() <= 10){
+                int tmp = CurrentGameMap[SelectedTile].getSettlementLevel();
+                CurrentGameMap[SelectedTile].setSettlementLevel(tmp+1);
+                *player[CurrentPlayerTurn-1]-=(50+0.11f);
+                *player[CurrentPlayerTurn-1]-=(25+0.21f);
+                *player[CurrentPlayerTurn-1]-=(25+0.31f);
+            }
+
+        }
+
+
+        if(line == "build"){
+            cout<<endl<<"Select building type: ";
+            string ind;
+            getline(std::cin, ind);
+            if(ind == "V" and player[CurrentPlayerTurn-1]->getStone() >= 50 and player[CurrentPlayerTurn-1]->getWood() >= 50 and CurrentGameMap[SelectedTile].getPlayerControl() == CurrentPlayerTurn and CurrentGameMap[SelectedTile].getSettlementType() == 0){
+                *player[CurrentPlayerTurn-1]-=(50+0.21f);
+                *player[CurrentPlayerTurn-1]-=(50+0.31f);
+                CurrentGameMap[SelectedTile].setSettlementLevel(1);
+                CurrentGameMap[SelectedTile].setSettlementType(1);
+            }
+            if(ind == "F" and player[CurrentPlayerTurn-1]->getStone() >= 50 and player[CurrentPlayerTurn-1]->getWood() >= 50 and CurrentGameMap[SelectedTile].getPlayerControl() == CurrentPlayerTurn and CurrentGameMap[SelectedTile].getSettlementType() == 0 and ( CurrentGameMap[SelectedTile].getTerrainType() == 1 or CurrentGameMap[SelectedTile].getTerrainType() == 2) ){
+                *player[CurrentPlayerTurn-1]-=(50+0.21f);
+                *player[CurrentPlayerTurn-1]-=(50+0.31f);
+                CurrentGameMap[SelectedTile].setSettlementLevel(1);
+                CurrentGameMap[SelectedTile].setSettlementType(2);
+            }
+            if(ind == "L" and player[CurrentPlayerTurn-1]->getStone() >= 50 and player[CurrentPlayerTurn-1]->getWood() >= 50 and CurrentGameMap[SelectedTile].getPlayerControl() == CurrentPlayerTurn and CurrentGameMap[SelectedTile].getSettlementType() == 0 and CurrentGameMap[SelectedTile].getTerrainType() == 3){
+                *player[CurrentPlayerTurn-1]-=(50+0.21f);
+                *player[CurrentPlayerTurn-1]-=(50+0.31f);
+                CurrentGameMap[SelectedTile].setSettlementLevel(1);
+                CurrentGameMap[SelectedTile].setSettlementType(3);
+            }
+            if(ind == "M" and player[CurrentPlayerTurn-1]->getStone() >= 50 and player[CurrentPlayerTurn-1]->getWood() >= 50 and CurrentGameMap[SelectedTile].getPlayerControl() == CurrentPlayerTurn and CurrentGameMap[SelectedTile].getSettlementType() == 0 and  CurrentGameMap[SelectedTile].getTerrainType() == 4 ){
+                *player[CurrentPlayerTurn-1]-=(50+0.21f);
+                *player[CurrentPlayerTurn-1]-=(50+0.31f);
+                CurrentGameMap[SelectedTile].setSettlementLevel(1);
+                CurrentGameMap[SelectedTile].setSettlementType(4);
+            }
+
+
+
+        }
+
+
+        if(line == "trade" and player[CurrentPlayerTurn-1]->getGold() >= 50){
+
+            *player[CurrentPlayerTurn-1]+=(10+0.11f);
+            *player[CurrentPlayerTurn-1]+=(10+0.21f);
+            *player[CurrentPlayerTurn-1]+=(10+0.31f);
+            *player[CurrentPlayerTurn-1]-=(50+0.41f);
+        }
+        if(line == "next"){
+            if(CurrentPlayerTurn < NumberOfPlayers)
+                CurrentPlayerTurn++;
+            else
+            {
+                CalculateIncome();
+                CurrentPlayerTurn = 1;
+                Turn++;
+            }
+        }
+
     }
 }
